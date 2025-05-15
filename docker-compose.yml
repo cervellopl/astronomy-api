@@ -14,7 +14,7 @@ services:
       - mysql_data:/var/lib/mysql
       - ./mc3jpyObs.sql:/docker-entrypoint-initdb.d/init.sql
     ports:
-      - "3306:3306"
+      - "3307:3306"
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u$$MYSQL_USER", "-p$$MYSQL_PASSWORD"]
       interval: 10s
@@ -35,7 +35,7 @@ services:
         condition: service_healthy
     environment:
       FLASK_CONFIG: ${FLASK_CONFIG:-production}
-      DATABASE_URL: mysql+pymysql://${MYSQL_USER:-astronomy}:${MYSQL_PASSWORD:-astronomy}@db/${MYSQL_DATABASE:-astronomy_db}
+      DATABASE_URL: mysql+pymysql://${MYSQL_USER:-astronomy}:${MYSQL_PASSWORD:-astronomy}@db:3306/${MYSQL_DATABASE:-astronomy_db}
       SECRET_KEY: ${SECRET_KEY:-astronomy-api-secret-key}
     ports:
       - "${API_PORT:-5000}:5000"
